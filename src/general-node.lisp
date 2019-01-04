@@ -51,7 +51,7 @@
 (defun nodes-corrupted (nodes)
   (dolist (node nodes)
     (when (general-node-corrupted node)
-      (return-from corrupted t))))
+      (return-from nodes-corrupted t))))
 
 (defun nodes-decorrupt (nodes)
   (dolist (node nodes)

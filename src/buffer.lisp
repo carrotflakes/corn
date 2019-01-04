@@ -3,7 +3,8 @@
         :corn.parameters)
   (:export :make-buffer
            :buffer-frames
-           :buffer-channels))
+           :buffer-channels
+           :clear))
 (in-package :corn.buffer)
 
 ; いらない
@@ -20,6 +21,13 @@
 
 (defun buffer-channels (buffer)
   (array-dimension buffer 1))
+
+(defun clear (buffer)
+  ;(declare (optimize (speed 3) (safety 2))
+  ;         (type (simple-array (or single-float double-float) (* *)) buffer))
+  (dotimes (i (array-dimension buffer 0))
+    (dotimes (j (array-dimension buffer 1))
+      (setf (aref buffer i j) 0.0))))
 
 (defstruct buffer-pool
   (buffers '()))

@@ -51,16 +51,16 @@
   (unwind-protect
        (with-audio
          (with-default-audio-stream
-             (astream +channels+ +channels+
+             (astream *channels* *channels*
                       :sample-format +sample-format+
                       :sample-rate (coerce *sampling-rate* 'double-float)
-                      :frames-per-buffer +frames-per-buffer+)
+                      :frames-per-buffer *buffer-size*)
            (loop
              until *thread-end*
              do (write-stream astream
                               (merge-channels-into-array astream
                                                          (render)))
-                (incf *current-time* (/ +frames-per-buffer+ *sampling-rate*)))))
+                (incf *current-time* (/ *buffer-size* *sampling-rate*)))))
     (setf *thread* nil)))
 
 (defun start ()

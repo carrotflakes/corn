@@ -16,9 +16,19 @@
   :components ((:module "src"
                 :components
                 ((:file "corn" :depends-on ("parameters" "buffer" "render"))
-                 (:file "render" :depends-on ("parameters" "buffer"))
+                 (:file "render" :depends-on ("parameters"
+                                              "buffer"
+                                              "general-node"
+                                              "node/mixer"
+                                              "node/test-tone"))
                  (:file "buffer" :depends-on ("parameters"))
-                 (:file "parameters"))))
+                 (:file "general-node")
+                 (:file "parameters")
+                 (:file "node/mixer" :depends-on ("buffer"
+                                                  "parameters"
+                                                  "node/audio-node"))
+                 (:file "node/test-tone" :depends-on ("node/audio-node"))
+                 (:file "node/audio-node" :depends-on ("general-node")))))
   :description "Primitive sound generation system"
   :long-description
   #.(read-file-string

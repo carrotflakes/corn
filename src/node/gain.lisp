@@ -1,6 +1,6 @@
 (defpackage corn.node.gain
   (:use :cl
-        :corn.general-node
+        :corn.node.audio-node
         :corn.node.param))
 (in-package :corn.node.gain)
 
