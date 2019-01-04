@@ -7,7 +7,8 @@
         :corn.render)
   (:export :start
            :stop
-           :current-time))
+           :current-time
+           :put-event))
 (in-package :corn)
 
 #|
@@ -45,7 +46,6 @@
 
 (defvar *thread* nil)
 (defvar *thread-end* nil)
-(defvar *current-time* 0)
 
 (defun thread ()
   (unwind-protect
@@ -74,3 +74,6 @@
 
 (defun current-time ()
   *current-time*)
+
+(defun put-event (event)
+  (push-event *event-queue* event))

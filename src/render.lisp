@@ -2,12 +2,17 @@
   (:use :cl
         :corn.parameters
         :corn.general-node
+        :corn.event
         :corn.buffer
         :corn.node.mixer)
   (:export :render
-           :*master*))
+           :*master*
+           :*current-time*
+           :*event-queue*))
 (in-package :corn.render)
 
+(defvar *current-time* 0)
+(defvar *event-queue* (make-event-queue))
 (defvar *all-nodes* nil)
 (defvar *buffers* (make-array 10 :adjustable t :fill-pointer 0))
 (defvar *master* (create-mixer))
@@ -24,4 +29,4 @@
   (clear buffer)
   (corn.node.audio-node:render *master* '() buffer)
   ; render nodes in order
-  buffer) ; returns (simple-vector single-float (2 1024))
+  buffer)

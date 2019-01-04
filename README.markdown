@@ -19,17 +19,20 @@ Primitive sound generation system.
 ; Activate to make sounds in real time.
 (start)
 
+; You can make nodes and connections after `(start)` also.
+
 (let ((time (current-time))) ; `(current-time)` returns the current time from the start. The unit is seconds and the type is ratio.
 
   ; Schedule events, and the events will be fired at the specified time.
   (put-event (synth-event synth :time (+ time 1) :notenum 60 :velocity 0.75))
-  (put-event (audio-clip-event audio-clip :time (+ time 1) :rate 60 :duration 0.75)))
+  (put-event (audio-clip-event audio-clip) :time (+ time 1) :rate 60 :duration 0.75))
 ```
 
 ## Installation
 Requiring [portaudio](http://www.portaudio.com/).
 
 ```
+ros install oconnore/queues
 ros install carrotflakes/corn
 ```
 

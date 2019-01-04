@@ -12,16 +12,19 @@
   :author "carrotflakes"
   :license "LLGPL"
   :depends-on ("cl-portaudio"
-               "bordeaux-threads")
+               "bordeaux-threads"
+               "queues.priority-cqueue")
   :components ((:module "src"
                 :components
                 ((:file "corn" :depends-on ("parameters" "buffer" "render"))
                  (:file "render" :depends-on ("parameters"
                                               "buffer"
+                                              "event"
                                               "general-node"
                                               "node/mixer"
                                               "node/test-tone"))
                  (:file "buffer" :depends-on ("parameters"))
+                 (:file "event")
                  (:file "general-node")
                  (:file "parameters")
                  (:file "node/mixer" :depends-on ("buffer"
