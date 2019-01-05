@@ -4,11 +4,15 @@
         :bordeaux-threads
         :corn.parameters
         :corn.buffer
-        :corn.render)
+        :corn.render
+        :corn.general-node)
   (:export :start
            :stop
            :current-time
-           :put-event))
+           :put-event
+           :connect
+           :disconnect
+           :*master*))
 (in-package :corn)
 
 #|
@@ -59,8 +63,7 @@
              until *thread-end*
              do (write-stream astream
                               (merge-channels-into-array astream
-                                                         (render)))
-                (incf *current-time* (/ *buffer-size* *sampling-rate*)))))
+                                                         (render))))))
     (setf *thread* nil)))
 
 (defun start ()

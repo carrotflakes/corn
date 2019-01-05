@@ -18,9 +18,13 @@
 (defvar *master* (create-mixer))
 (defvar *plan* '())
 
-(defvar buffer (make-buffer +frames-per-buffer+ +channels+))
+(defvar buffer (make-buffer *buffer-size* *channels*))
+
+(defun initialize ())
 
 (defun render ()
+  (let* ((next-time (+ *current-time* (/ *buffer-size* *sampling-rate*)))
+         (events (pop-events *event-queue* next-time)))
   ; plan
   ;; (when (or (null *all-nodes*) (nodes-corrupted *all-nodes*))
   ;;   (setf *all-nodes* (collect (list *master*)))
@@ -28,5 +32,6 @@
   ; ensure buffers
   (clear buffer)
   (corn.node.audio-node:render *master* '() buffer)
+  (setf *current-time* next-time)
   ; render nodes in order
-  buffer)
+  buffer))
