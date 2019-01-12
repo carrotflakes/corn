@@ -20,17 +20,6 @@
 
 (defun render ()
   (setf *next-time* (+ *current-time* (/ *buffer-size* *sampling-rate*)))
-  ; plan
-  ;; (when (or (null *all-nodes*) (nodes-corrupted *all-nodes*))
-  ;;   (setf *all-nodes* (collect (list *master*)))
-  ;;   (nodes-decorrupt *all-nodes*))
-  ; ensure buffers
-
-  ;(clear buffer)
-  ;(corn.node.audio-node:render *master* '() buffer)
-
   (funcall *render* buffer)
-
   (setf *current-time* *next-time*)
-  ; render nodes in order
   buffer)

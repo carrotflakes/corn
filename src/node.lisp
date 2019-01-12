@@ -140,7 +140,8 @@
 (defun render-body (buffer-sym input)
   (let ((channels (io-channels input)))
     (with-input-parts (bindings initialize update sample-1 sample-2 finalize) input
-      `(let* ,bindings
+      `(let* ((dtime (/ 1 *sampling-rate*))
+              ,@bindings)
          ,@initialize
          (loop
            for *buffer-pointer* from 0 below *buffer-size*
@@ -148,7 +149,8 @@
               ,(ecase channels
                  (1 `(setf (aref ,buffer-sym 0 *buffer-pointer*) ,sample-1))
                  (2 `(setf (aref ,buffer-sym 0 *buffer-pointer*) ,sample-1
-                           (aref ,buffer-sym 1 *buffer-pointer*) ,sample-2))))
+                           (aref ,buffer-sym 1 *buffer-pointer*) ,sample-2)))
+              (incf *current-time* dtime))
          ,@finalize
          ,buffer-sym))))
 
