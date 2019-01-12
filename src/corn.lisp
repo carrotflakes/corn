@@ -5,7 +5,7 @@
         :corn.parameters
         :corn.buffer
         :corn.render
-        :corn.general-node)
+        :corn.node)
   (:export :start
            :stop
            :current-time
