@@ -19,6 +19,7 @@
            :node-parts
            :with-node-parts
            :with-input-parts
+           :*buffer-pointer*
 
            :make-nop
            :make-sine

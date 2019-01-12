@@ -42,6 +42,9 @@
                  (:file "node/gain"
                   :depends-on ("node"
                                "parameters"))
+                 (:file "node/buffer"
+                  :depends-on ("node"
+                               "parameters"))
                  ;; (:file "node/mixer"
                  ;;  :depends-on ("buffer"
                  ;;               "parameters"
