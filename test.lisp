@@ -23,7 +23,7 @@
 
 (start)
 
-B(sleep 10)
+(sleep 10)
 
 (setf (corn.node.sine::sine-frequency sine-1) (notenum-frequency 67))
 

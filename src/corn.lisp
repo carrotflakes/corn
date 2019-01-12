@@ -9,7 +9,6 @@
   (:export :start
            :stop
            :current-time
-           :put-event
            :connect
            :disconnect
            :*master*))
@@ -77,6 +76,3 @@
 
 (defun current-time ()
   *current-time*)
-
-(defun put-event (event)
-  (push-event *event-queue* event))

@@ -2,26 +2,46 @@
   (:use :cl
         :queues)
   (:export :event
-           :make-event-queue
+           :event-time
+           :event-duration
+           :make-event-manager
+           :event-manager-current-events
            :push-event
-           :pop-events))
+           :update))
 (in-package :corn.event)
 
 (defstruct event
-  time)
+  time
+  (duration 0.0))
 
 (defun event< (x y)
   (< (event-time x) (event-time y)))
 
+(defun event-end-time (event)
+  (+ (event-time event) (event-duration event)))
 
-(defun make-event-queue ()
-  (make-queue :priority-cqueue :compare #'event<))
 
-(defun push-event (event-queue event)
-  (qpush event-queue event))
+(defstruct event-manager
+  (current-events '())
+  (queue (make-queue :priority-cqueue :compare #'event<)))
 
-(defun pop-events (event-queue time)
-  (loop
-    for event = (qtop event-queue)
-    while (and event (< (event-time event) time))
-    collect (qpop event-queue)))
+(defun push-event (event-manager event)
+  (qpush (event-manager-queue event-manager) event))
+
+(defun update (event-manager start-time end-time)
+  (let ((current-events (event-manager-current-events event-manager)))
+    ; remove old events
+    (setf current-events
+          (remove-if (lambda (event)
+                       (< (event-end-time event) start-time)) ; <?
+                     current-events))
+    ; current events
+    (setf current-events
+          (append current-events
+                  (loop
+                    with queue = (event-manager-queue event-manager)
+                    for event = (qtop queue)
+                    while (and event (< (event-time event) end-time))
+                    collect (qpop queue))))
+    (setf (event-manager-current-events event-manager)
+          current-events)))

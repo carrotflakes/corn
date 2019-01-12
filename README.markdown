@@ -12,7 +12,7 @@ Primitive sound generation system.
 (defvar effector (make-foo-effector))
 
 ; Make connections between each node, to flow to *master*.
-(connect synth effector)
+(connect synth (effector-input effector))
 (connect effector *master*)
 (connect audio-clip *master*)
 

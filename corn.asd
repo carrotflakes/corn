@@ -45,15 +45,10 @@
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
-                 ;; (:file "node/mixer"
-                 ;;  :depends-on ("buffer"
-                 ;;               "parameters"
-                 ;;               "node/audio-node"))
-                 ;; (:file "node/test-tone"
-                 ;;  :depends-on ("node/audio-node"))
-                 ;; (:file "node/audio-node"
-                 ;;  :depends-on ("general-node"))
-                 )))
+                 (:file "node/param"
+                  :depends-on ("node"
+                               "parameters"
+                               "event")))))
   :description "Primitive sound generation system"
   :long-description
   #.(read-file-string

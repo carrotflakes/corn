@@ -4,7 +4,9 @@
            :+sample-format+
            :*channels*
            :*sampling-rate*
-           :*buffer-size*))
+           :*buffer-size*
+           :*current-time*
+           :*next-time*))
 (in-package :corn.parameters)
 
 (defconstant +sample-type+ 'single-float)
@@ -12,3 +14,6 @@
 (defvar *channels* 2)
 (defvar *sampling-rate* 44100)
 (defvar *buffer-size* 1024)
+
+(defparameter *current-time* 0)
+(defparameter *next-time* 0)
