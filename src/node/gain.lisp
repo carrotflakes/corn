@@ -1,6 +1,7 @@
 (defpackage corn.node.gain
   (:use :cl
         :corn.node
+        :corn.node.param
         :corn.parameters)
   (:import-from :alexandria
                 :with-gensyms)
@@ -12,14 +13,28 @@
 (defstruct (gain (:include node))
   (input (make-input :default-sample-1 0.0 :default-sample-2 0.0
                      :channels 2))
-  (gain 1.0))
+  (gain (make-param :value 1.0)))
 
 (defmethod node-parts ((gain gain))
-  (with-gensyms (gain-sym)
-    (with-input-parts (bindings initialize update sample-1 sample-2 finalize) (gain-input gain)
-      `(:bindings ((,gain-sym (gain-gain ,gain)) ,@bindings)
-        :initialize ,initialize
-        :update ,update
-        :sample-1 (* ,gain-sym ,sample-1)
-        :sample-2 (* ,gain-sym ,sample-2)
-        :finalize ,finalize))))
+  (with-input-parts
+      (input-bindings
+       input-initialize
+       input-update
+       input-sample-1
+       input-sample-2
+       input-finalize)
+      (gain-input gain)
+    (with-node-parts
+        (gain-bindings
+         gain-initialize
+         gain-update
+         gain-sample-1
+         gain-sample-2
+         gain-finalize)
+        (gain-gain gain)
+      `(:bindings (,@input-bindings ,@gain-bindings)
+        :initialize (,@input-initialize ,@gain-initialize)
+        :update (,@input-update ,@gain-update)
+        :sample-1 (* ,input-sample-1 ,gain-sample-1)
+        :sample-2 (* ,input-sample-2 ,gain-sample-1)
+        :finalize (,@input-finalize ,@gain-finalize)))))

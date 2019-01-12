@@ -109,34 +109,6 @@
           (,finalize (getf parts :finalize)))
      ,@body))
 
-
-
-(defstruct (buffer (:include node))
-  array)
-
-#|
-(defmethod node-parts ((buffer buffer))
-  (let ((node-sym (gensym "NODE")))
-    (cond (buffer-channels buffer)
-          (1
-           `((:bindings . ())
-             (:initialize . ())
-             (:update . ())
-             (:sample-1 . (aref buffer 0 ))
-             (:finalize . ())))
-        (2
-         `((:bindings . ())
-           (:initialize . ())
-           (:update . ())
-           (:sample-1 . ())
-           (:sample-2 . ())
-           (:finalize . ()))))))
-|#
-(defstruct (gain (:include node))
-  input
-  gain)
-
-
 (defun render-body (buffer-sym input)
   (let ((channels (io-channels input)))
     (with-input-parts (bindings initialize update sample-1 sample-2 finalize) input

@@ -6,6 +6,7 @@
   (:import-from :alexandria
                 :with-gensyms)
   (:export :make-param
+           :param-value
            :param-set-value))
 (in-package :corn.node.param)
 
@@ -19,12 +20,12 @@
 (defmethod node-parts ((param param))
   (with-gensyms (events value)
     `(:bindings ((,events (progn
-                            (update event-manager *current-time* *next-time*)
+                            (update (param-event-manager ,param) *current-time* *next-time*)
                             (event-manager-current-events (param-event-manager ,param))))
                  (,value (param-value ,param)))
       :initialize ()
       :update ((when (and ,events (<= (event-time (first ,events)) *current-time*))
-                 (let ((event (pop events)))
+                 (let ((event (pop ,events)))
                    (etypecase event
                      (set-value
                       (setf ,value (set-value-value event)))))))

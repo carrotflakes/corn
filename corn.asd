@@ -41,7 +41,8 @@
                                "parameters"))
                  (:file "node/gain"
                   :depends-on ("node"
-                               "parameters"))
+                               "parameters"
+                               "node/param"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
