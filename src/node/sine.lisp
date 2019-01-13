@@ -1,25 +1,38 @@
 (defpackage corn.node.sine
   (:use :cl
         :corn.node
+        :corn.node.param
         :corn.parameters)
   (:import-from :alexandria
                 :with-gensyms)
-  (:export :make-sine))
+  (:export :make-sine
+           :sine-frequency))
 (in-package :corn.node.sine)
 
 (defstruct (sine (:include node))
-  (frequency 440.0)
+  (frequency (make-input :channels 1
+                         :default-sample-1 0.0))
   (phase 0.0))
 
 (defmethod node-parts ((sine sine))
-  (with-gensyms (phase dphase sample)
-    `(:bindings ((,phase (sine-phase ,sine))
-                 (,dphase (float (* (/ (sine-frequency ,sine) *sampling-rate*) 2 pi)
-                                 0.0))
+  (with-gensyms (phase sample)
+    (with-input-parts
+        (bindings
+         initialize
+         update
+         sample-1
+         sample-2
+         finalize)
+        (sine-frequency sine)
+    `(:bindings (,@bindings
+                 (,phase (sine-phase ,sine))
                  (,sample 0.0))
-      :initialize ()
-      :update ((setf ,sample (sin ,phase))
-               (incf ,phase ,dphase))
+      :initialize ,initialize
+      :update (,@update
+               (setf ,sample (sin ,phase))
+               (incf ,phase (float (* (/ ,sample-1 *sampling-rate*) 2 pi)
+                                 0.0)))
       :sample-1 ,sample
       :sample-2 ,sample
-      :finalize ((setf (sine-phase ,sine) ,phase)))))
+      :finalize (,@finalize
+                 (setf (sine-phase ,sine) ,phase))))))
