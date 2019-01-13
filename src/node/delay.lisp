@@ -47,6 +47,27 @@
          delay-finalize)
         (delay-delay delay)
       (ecase (delay-channels delay)
+        (1 ; NOTE: not tested yet in monaural
+         (with-gensyms (sample-1 buffer pointer buffer-frames)
+           `(:bindings (,@input-bindings
+                        ,@delay-bindings
+                        (,pointer (delay-pointer ,delay))
+                        (,buffer (delay-buffer ,delay))
+                        (,buffer-frames (buffer-frames ,buffer))
+                        (,sample-1))
+             :initialize (,@input-initialize ,@delay-initialize)
+             :update (,@input-update
+                      ,@delay-update
+                      (setf (aref ,buffer 0 ,pointer) ,input-sample-1)
+                      (multiple-value-setq (,sample-1)
+                        (interpolate ,buffer (- ,pointer (* ,delay-sample-1 *sampling-rate*))
+                                     :linear :loop))
+                      (setf ,pointer (mod (1+ ,pointer) ,buffer-frames)))
+             :sample-1 ,sample-1
+             ;:sample-2 ,sample-1
+             :finalize (,@input-finalize
+                        ,@delay-finalize
+                        (setf (delay-pointer ,delay) ,pointer)))))
         (2
          (with-gensyms (sample-1 sample-2 buffer pointer buffer-frames)
            `(:bindings (,@input-bindings
