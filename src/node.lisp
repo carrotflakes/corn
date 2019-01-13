@@ -112,7 +112,8 @@
 (defun render-body (buffer-sym input)
   (let ((channels (io-channels input)))
     (with-input-parts (bindings initialize update sample-1 sample-2 finalize) input
-      `(let* ((dtime (/ 1 *sampling-rate*))
+      `(let* ((*current-time* *current-time*)
+              (dtime (/ 1 *sampling-rate*))
               ,@bindings)
          ,@initialize
          (loop

@@ -38,7 +38,8 @@
                                "parameters"))
                  (:file "node/sine"
                   :depends-on ("node"
-                               "parameters"))
+                               "parameters"
+                               "node/param"))
                  (:file "node/gain"
                   :depends-on ("node"
                                "parameters"

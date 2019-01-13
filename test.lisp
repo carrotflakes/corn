@@ -10,11 +10,11 @@
 (defvar sine-2 (corn.node.sine:make-sine :channels 2
                                          :frequency (notenum-frequency 64)))
 (defvar gain (corn.node.gain:make-gain :channels 2))
-
-(setf (corn.node.param:param-value (corn.node.gain:gain-gain gain)) 0.5)
+(defvar gain-param (corn.node.param:make-param :value 0.5))
 
 (connect sine-1 (corn.node.gain:gain-input gain))
 (connect sine-2 (corn.node.gain:gain-input gain))
+(connect gain-param (corn.node.gain:gain-gain gain))
 (connect gain *master*)
 
 (let ((*print-circle* t))
@@ -35,10 +35,10 @@
 (loop
   with time = (current-time)
   repeat 5
-  do (corn.node.param:param-set-value (corn.node.gain:gain-gain gain)
+  do (corn.node.param:param-set-value gain-param
                                       :time (incf time 1)
                                       :value 0.01)
-     (corn.node.param:param-set-value (corn.node.gain:gain-gain gain)
+     (corn.node.param:param-set-value gain-param
                                       :time (incf time 1)
                                       :value 0.5))
 

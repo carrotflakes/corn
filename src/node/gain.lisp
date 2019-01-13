@@ -11,9 +11,11 @@
 (in-package :corn.node.gain)
 
 (defstruct (gain (:include node))
-  (input (make-input :default-sample-1 0.0 :default-sample-2 0.0
-                     :channels 2))
-  (gain (make-param :value 1.0)))
+  (input (make-input :channels 2
+                     :default-sample-1 0.0
+                     :default-sample-2 0.0))
+  (gain (make-input :channels 1
+                    :default-sample-1 0.0)))
 
 (defmethod node-parts ((gain gain))
   (with-input-parts
@@ -24,7 +26,7 @@
        input-sample-2
        input-finalize)
       (gain-input gain)
-    (with-node-parts
+    (with-input-parts
         (gain-bindings
          gain-initialize
          gain-update
