@@ -12,7 +12,7 @@
 (defstruct (sine (:include node))
   (frequency (make-input :channels 1
                          :default-sample-1 0.0))
-  (phase 0.0))
+  (phase 0d0))
 
 (defmethod node-parts ((sine sine))
   (with-gensyms (phase sample)
@@ -29,9 +29,8 @@
                  (,sample 0.0))
       :initialize ,initialize
       :update (,@update
-               (setf ,sample (sin ,phase))
-               (incf ,phase (float (* (/ ,sample-1 *sampling-rate*) 2 pi)
-                                 0.0)))
+               (setf ,sample (float (sin ,phase) 0.0))
+               (incf ,phase (* (/ ,sample-1 *sampling-rate*) 2 pi)))
       :sample-1 ,sample
       :sample-2 ,sample
       :finalize (,@finalize
