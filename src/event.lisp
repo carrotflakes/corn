@@ -4,6 +4,7 @@
   (:export :event
            :event-time
            :event-duration
+           :event-end-time
            :make-event-manager
            :event-manager-current-events
            :push-event
