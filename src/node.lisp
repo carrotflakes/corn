@@ -39,12 +39,17 @@
 
 (defstruct (node (:include output)))
 
+;(defmethod print-object ((node node) stream)
+
 (defgeneric node-inputs (node))
 (defmethod node-inputs ((node node))
   '())
 
 (defun connect (output input)
   (unless (= (io-channels output) (io-channels input))
+    (let ((*print-circle* t))
+      (print output)
+      (print input))
     (error "different channel nodes are connected"))
   (pushnew output (io-nodes input))
   (pushnew input (io-nodes output)))

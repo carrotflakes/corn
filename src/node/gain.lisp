@@ -6,6 +6,7 @@
   (:import-from :alexandria
                 :with-gensyms)
   (:export :make-gain
+           :create-gain
            :gain-input
            :gain-gain))
 (in-package :corn.node.gain)
@@ -16,6 +17,12 @@
                      :default-sample-2 0.0))
   (gain (make-input :channels 1
                     :default-sample-1 0.0)))
+
+(defun create-gain (&key channels)
+  (make-gain :channels channels
+             :input (make-input :channels channels
+                                :default-sample-1 0.0
+                                :default-sample-2 0.0)))
 
 (defmethod node-parts ((gain gain))
   (with-input-parts
