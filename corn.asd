@@ -50,6 +50,11 @@
                                "parameters"
                                "node/param"
                                "util"))
+                 (:file "node/delay"
+                  :depends-on ("node"
+                               "parameters"
+                               "buffer"
+                               "node/param"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
