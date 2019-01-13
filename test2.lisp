@@ -3,7 +3,8 @@
 (use-package '(:corn
                :corn.node.sine
                :corn.node.gain
-               :corn.node.param))
+               :corn.node.param
+               :corn.node.pan))
 
 (defun notenum-frequency (notenum)
   (float (* 440 (expt 2 (/ (- notenum 69) 12)))))
@@ -17,10 +18,13 @@
 (defparameter frequency-param-2 (make-param :value (notenum-frequency 64)))
 (defparameter sine-3 (make-sine :channels 1))
 (defparameter frequency-param-3 (make-param :value 4))
-(defparameter gain (make-gain :channels 2))
-(defparameter gain-param (make-param :value 0.5))
+(defparameter sine-4 (make-sine :channels 1))
+(defparameter frequency-param-4 (make-param :value 6))
+(defparameter gain (create-gain :channels 2))
+(defparameter gain-param (make-param :value 0.2))
 (defparameter gain-2 (corn.node.gain::create-gain :channels 1))
 (defparameter gain-param-2 (make-param :value 5))
+(defparameter pan (create-pan :channels 2))
 
 (setf *master* (corn.node:make-input :channels 2
                                      :default-sample-1 0.0
@@ -37,7 +41,10 @@
 (connect gain-2 (sine-frequency sine-2))
 
 (connect gain-param (gain-gain gain))
-(connect gain *master*)
+(connect gain (pan-input pan))
+(connect frequency-param-4 (sine-frequency sine-4))
+(connect sine-4 (pan-pan pan))
+(connect pan *master*)
 
 '(let ((*print-circle* t))
   (print (corn.node::render-body 'buffer *master*)))
@@ -66,7 +73,7 @@
                         :time (incf time 0.5)
                         :duration 0.5
                         :start-value 0
-                        :end-value 0.5))
+                        :end-value 0.2))
 
 )
 

@@ -32,6 +32,7 @@
                  (:file "event")
                  (:file "node"
                   :depends-on ("parameters"))
+                 (:file "util")
                  (:file "parameters")
                  (:file "node/nop"
                   :depends-on ("node"
@@ -44,6 +45,11 @@
                   :depends-on ("node"
                                "parameters"
                                "node/param"))
+                 (:file "node/pan"
+                  :depends-on ("node"
+                               "parameters"
+                               "node/param"
+                               "util"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
