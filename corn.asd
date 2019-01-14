@@ -55,6 +55,10 @@
                                "parameters"
                                "buffer"
                                "node/param"))
+                 (:file "node/sawtooth"
+                  :depends-on ("node"
+                               "parameters"
+                               "node/param"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
