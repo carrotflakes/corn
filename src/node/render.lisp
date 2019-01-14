@@ -5,7 +5,8 @@
         :corn.parameters)
   (:import-from :alexandria
                 :with-gensyms)
-  (:export :make-render
+  (:export :render
+           :make-render
            :render-render))
 (in-package :corn.node.render)
 

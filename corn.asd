@@ -34,6 +34,12 @@
                   :depends-on ("parameters"))
                  (:file "util")
                  (:file "parameters")
+                 (:file "defnode"
+                  :depends-on ("node"
+                               "node/render"
+                               "render"
+                               "buffer"
+                               "parameters"))
                  (:file "node/nop"
                   :depends-on ("node"
                                "parameters"))
