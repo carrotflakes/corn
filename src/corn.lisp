@@ -11,7 +11,9 @@
            :current-time
            :connect
            :disconnect
-           :*master*))
+           :make-destination
+           :set-render
+           :build-render))
 (in-package :corn)
 
 #|

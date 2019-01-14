@@ -32,8 +32,8 @@
   nodes)
 
 (defstruct (input (:include io))
-  default-sample-1
-  default-sample-2)
+  (default-sample-1 0.0)
+  (default-sample-2 0.0))
 
 (defstruct (output (:include io)))
 
