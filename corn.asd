@@ -64,6 +64,10 @@
                                "parameters"
                                "node/param"
                                "buffer"))
+                 (:file "node/render"
+                  :depends-on ("node"
+                               "parameters"
+                               "buffer"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
