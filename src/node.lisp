@@ -69,11 +69,31 @@
     :sample-2 0.0
     :finalize ()))
 
+(defvar *node-parts-cache*)
+
+(defmacro with-node-parts-cache (&body body)
+  `(let ((*node-parts-cache* (make-hash-table :test 'eq)))
+     ,@body))
+
+(defun node-parts-with-cache (node)
+  (or (gethash node *node-parts-cache*)
+      (let ((parts (node-parts node)))
+        (setf (gethash node *node-parts-cache*)
+              (list* :bindings ()
+                     :initialize ()
+                     :update ()
+                     :finalize ()
+                     (ecase (io-channels node)
+                       (1 `(:sample-1 ,(getf parts :sample-1)))
+                       (2 `(:sample-1 ,(getf parts :sample-1)
+                            :sample-2 ,(getf parts :sample-2))))))
+        parts)))
+
 (defvar *buffer-pointer*)
 
 (defmacro with-node-parts ((bindings initialize update sample-1 sample-2 finalize)
                            node &body body)
-  `(let* ((parts (node-parts ,node))
+  `(let* ((parts (node-parts-with-cache ,node))
           (,bindings (getf parts :bindings))
           (,initialize (getf parts :initialize))
           (,update (getf parts :update))
@@ -91,7 +111,7 @@
         (finalize ()))
     (loop
       for output in (io-nodes input)
-      for parts = (node-parts output)
+      for parts = (node-parts-with-cache output)
       do (setf bindings (append (getf parts :bindings) bindings)
                initialize (append (getf parts :initialize) initialize)
                update (append (getf parts :update) update)
@@ -118,20 +138,21 @@
 
 (defun render-body (buffer input)
   (let ((channels (io-channels input)))
-    (with-input-parts (bindings initialize update sample-1 sample-2 finalize) input
-      `(let* ((*current-time* *current-time*)
-              (dtime (/ 1 *sampling-rate*))
-              ,@bindings)
-         ,@initialize
-         (loop
-           for *buffer-pointer* from 0 below *buffer-size*
-           do ,@update
-              ,(ecase channels
-                 (1 `(setf (aref ,buffer 0 *buffer-pointer*) ,sample-1))
-                 (2 `(setf (aref ,buffer 0 *buffer-pointer*) ,sample-1
-                           (aref ,buffer 1 *buffer-pointer*) ,sample-2)))
-              (incf *current-time* dtime))
-         ,@finalize))))
+    (with-node-parts-cache
+        (with-input-parts (bindings initialize update sample-1 sample-2 finalize) input
+          `(let* ((*current-time* *current-time*)
+                  (dtime (/ 1 *sampling-rate*))
+                  ,@bindings)
+             ,@initialize
+             (loop
+               for *buffer-pointer* from 0 below *buffer-size*
+               do ,@update
+                  ,(ecase channels
+                     (1 `(setf (aref ,buffer 0 *buffer-pointer*) ,sample-1))
+                     (2 `(setf (aref ,buffer 0 *buffer-pointer*) ,sample-1
+                               (aref ,buffer 1 *buffer-pointer*) ,sample-2)))
+                  (incf *current-time* dtime))
+             ,@finalize)))))
 
 (defun build-render (input)
   (with-gensyms (buffer)
