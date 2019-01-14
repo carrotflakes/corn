@@ -8,8 +8,8 @@
            :interpolate))
 (in-package :corn.buffer)
 
-(defun make-buffer (frames channels)
-  (make-array (list channels frames) :element-type +sample-type+))
+(defun make-buffer (frames channels &key (type +sample-type+))
+  (make-array (list channels frames) :element-type type))
 
 (defun buffer-frames (buffer)
   (array-dimension buffer 1))

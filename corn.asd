@@ -59,6 +59,11 @@
                   :depends-on ("node"
                                "parameters"
                                "node/param"))
+                 (:file "node/biquad-filter"
+                  :depends-on ("node"
+                               "parameters"
+                               "node/param"
+                               "buffer"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
