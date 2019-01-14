@@ -42,12 +42,14 @@
 ;(defmethod print-object ((node node) stream)
 
 (defgeneric node-inputs (node))
-(defmethod node-inputs ((node node))
+(defmethod node-inputs ((node node)) ; TODO?
   '())
 
 (defun connect (output input)
+  (assert (typep output 'output))
+  (assert (typep input 'input))
   (unless (= (io-channels output) (io-channels input))
-    (let ((*print-circle* t))
+    (let ((*print-circle* t)) ; FIXME
       (print output)
       (print input))
     (error "different channel nodes are connected"))
@@ -114,7 +116,7 @@
           (,finalize (getf parts :finalize)))
      ,@body))
 
-(defun render-body (buffer-sym input)
+(defun render-body (buffer input)
   (let ((channels (io-channels input)))
     (with-input-parts (bindings initialize update sample-1 sample-2 finalize) input
       `(let* ((*current-time* *current-time*)
@@ -125,12 +127,11 @@
            for *buffer-pointer* from 0 below *buffer-size*
            do ,@update
               ,(ecase channels
-                 (1 `(setf (aref ,buffer-sym 0 *buffer-pointer*) ,sample-1))
-                 (2 `(setf (aref ,buffer-sym 0 *buffer-pointer*) ,sample-1
-                           (aref ,buffer-sym 1 *buffer-pointer*) ,sample-2)))
+                 (1 `(setf (aref ,buffer 0 *buffer-pointer*) ,sample-1))
+                 (2 `(setf (aref ,buffer 0 *buffer-pointer*) ,sample-1
+                           (aref ,buffer 1 *buffer-pointer*) ,sample-2)))
               (incf *current-time* dtime))
-         ,@finalize
-         ,buffer-sym))))
+         ,@finalize))))
 
 (defun build-render (input)
   (with-gensyms (buffer)

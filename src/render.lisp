@@ -7,12 +7,10 @@
            :*master*))
 (in-package :corn.render)
 
-(defvar *all-nodes* nil)
-(defvar *buffers* (make-array 10 :adjustable t :fill-pointer 0))
 (defparameter *master* (make-input :channels 2
                                    :default-sample-1 0.0
                                    :default-sample-2 0.0))
-(defvar *render* nil)
+(defvar *render* (build-render *master*))
 
 (defvar buffer (make-buffer *buffer-size* *channels*))
 
