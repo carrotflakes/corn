@@ -74,6 +74,11 @@
                   :depends-on ("node"
                                "parameters"
                                "buffer"))
+                 (:file "node/wave-table"
+                  :depends-on ("node"
+                               "parameters"
+                               "event"
+                               "buffer"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
