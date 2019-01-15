@@ -1,7 +1,8 @@
 (defpackage corn.util
   (:use :cl)
   (:export :notenum-frequency
-           :clamp))
+           :clamp
+           :interpolate-exponential-ramp))
 (in-package :corn.util)
 
 (defun notenum-frequency (notenum)
@@ -12,3 +13,6 @@
     ((< value min) min)
     ((< max value) max)
     (t value)))
+
+(defun interpolate-exponential-ramp (y-1 y-2 x)
+  (exp (+ (* (log y-1) (- 1 x)) (* (log y-2) x))))
