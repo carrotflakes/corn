@@ -82,6 +82,10 @@
                                "parameters"
                                "event-manager"
                                "buffer"))
+                 (:file "node/multi-oscillator"
+                  :depends-on ("node"
+                               "parameters"
+                               "event-manager"))
                  (:file "node/buffer"
                   :depends-on ("node"
                                "parameters"))
