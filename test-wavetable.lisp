@@ -5,7 +5,7 @@
                :corn.node.sawtooth
                :corn.node.param
                :corn.node.gain
-               :corn.node.wave-table
+               :corn.node.wavetable
                :corn.util))
 
 (start)
@@ -21,10 +21,19 @@
     finally (return buffer)))
 
 (let ((master (make-destination))
-      (wave-table (create-wave-table :buffer (make-wave 44100)
-                                     :loop t
-                                     :pointer 0))
+      (wavetable (create-wavetable :buffer (make-wave 44100)
+                                   :loop nil
+                                   :pointer 0))
       (pitch-param (make-param :value 1)))
-  (connect pitch-param (wave-table-pitch wave-table))
-  (connect wave-table master)
-  (set-render (build-render master)))
+  (connect pitch-param (wavetable-pitch wavetable))
+  (connect wavetable master)
+  (set-render (build-render master))
+  (let ((time (current-time)))
+    (loop
+      for i from 1 below 10
+      do (wavetable-set-point wavetable :time (incf time (* i 0.05)) :pointer 0))
+    (loop
+      for i from 1 below 10
+      do (wavetable-set-point wavetable :time (incf time 1) :pointer (* i 4000)))))
+
+(stop)

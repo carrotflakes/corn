@@ -77,7 +77,7 @@
                   :depends-on ("node"
                                "parameters"
                                "buffer"))
-                 (:file "node/wave-table"
+                 (:file "node/wavetable"
                   :depends-on ("node"
                                "parameters"
                                "event-manager"
