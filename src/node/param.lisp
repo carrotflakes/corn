@@ -2,7 +2,7 @@
   (:use :cl
         :corn.parameters
         :corn.node
-        :corn.event)
+        :corn.event-manager)
   (:import-from :alexandria
                 :with-gensyms)
   (:import-from :corn.util

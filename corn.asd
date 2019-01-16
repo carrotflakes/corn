@@ -29,6 +29,9 @@
                                "node"))
                  (:file "buffer"
                   :depends-on ("parameters"))
+                 (:file "event-manager"
+                  :depends-on ("event"
+                               "node"))
                  (:file "event")
                  (:file "node"
                   :depends-on ("parameters"))
@@ -77,7 +80,7 @@
                  (:file "node/wave-table"
                   :depends-on ("node"
                                "parameters"
-                               "event"
+                               "event-manager"
                                "buffer"))
                  (:file "node/buffer"
                   :depends-on ("node"
@@ -85,7 +88,7 @@
                  (:file "node/param"
                   :depends-on ("node"
                                "parameters"
-                               "event")))))
+                               "event-manager")))))
   :description "Primitive sound generation system"
   :long-description
   #.(read-file-string
