@@ -20,7 +20,7 @@
 
        (defun ,create-node
            ,params
-         (macrolet ((end-defnode ()
+         (macrolet ((end-defnode (&key ,@externals)
                       (list 'return-from ',create-node
                             (list ',make-node
                                   :channels ,channels
@@ -29,7 +29,7 @@
                                   ,@(loop
                                       for external in externals
                                       collect (intern (symbol-name external) :keyword)
-                                      collect (list 'quote external))))))
+                                      collect external)))))
            (let ((,output (make-destination)))
              ,@body)
            (error "(end-defnode) is required in defnode"))))))
