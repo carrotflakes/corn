@@ -27,6 +27,7 @@
                   :depends-on ("param"))
                  (:file "biquad-filter"
                   :depends-on ("param"))
+                 (:file "clip")
                  (:file "render")
                  (:file "wavetable")
                  (:file "multi-oscillator")
