@@ -5,7 +5,8 @@
         :corn.buffer)
   (:export :make-destination
            :set-render
-           :render))
+           :render
+           :render-to-buffer))
 (in-package :corn.render)
 
 (defun make-destination ()
@@ -25,4 +26,19 @@
   (when *render*
     (funcall *render* buffer))
   (setf *current-time* *next-time*)
+  buffer)
+
+(defun render-to-buffer (render &key buffer frames seconds)
+  (cond
+    (buffer
+     (setf frames (buffer-frames buffer)))
+    (frames
+     (setf buffer (make-buffer frames 2)))
+    (seconds
+     (setf frames (ceiling (* seconds *sampling-rate*))
+           buffer (make-buffer frames 2))))
+  (let ((*current-time* 0)
+        (*next-time* (/ frames *sampling-rate*))
+        (*buffer-size* frames))
+    (funcall render buffer))
   buffer)

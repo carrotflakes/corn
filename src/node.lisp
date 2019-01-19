@@ -20,11 +20,7 @@
            :with-node-parts
            :with-input-parts
            :*buffer-pointer*
-
-           :make-nop
-           :make-sine
-           :build-render
-           ))
+           :build-render))
 (in-package :corn.node)
 
 (defstruct io
