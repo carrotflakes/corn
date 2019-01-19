@@ -36,63 +36,7 @@
                  (:file "node"
                   :depends-on ("parameters"))
                  (:file "util")
-                 (:file "parameters")
-                 (:file "defnode"
-                  :depends-on ("node"
-                               "node/render"
-                               "render"
-                               "buffer"
-                               "parameters"))
-                 (:file "node/nop"
-                  :depends-on ("node"
-                               "parameters"))
-                 (:file "node/sine"
-                  :depends-on ("node"
-                               "parameters"
-                               "node/param"))
-                 (:file "node/gain"
-                  :depends-on ("node"
-                               "parameters"
-                               "node/param"))
-                 (:file "node/pan"
-                  :depends-on ("node"
-                               "parameters"
-                               "node/param"
-                               "util"))
-                 (:file "node/delay"
-                  :depends-on ("node"
-                               "parameters"
-                               "buffer"
-                               "node/param"))
-                 (:file "node/sawtooth"
-                  :depends-on ("node"
-                               "parameters"
-                               "node/param"))
-                 (:file "node/biquad-filter"
-                  :depends-on ("node"
-                               "parameters"
-                               "node/param"
-                               "buffer"))
-                 (:file "node/render"
-                  :depends-on ("node"
-                               "parameters"
-                               "buffer"))
-                 (:file "node/wavetable"
-                  :depends-on ("node"
-                               "parameters"
-                               "event-manager"
-                               "buffer"))
-                 (:file "node/multi-oscillator"
-                  :depends-on ("node"
-                               "parameters"
-                               "event-manager"))
-                 (:file "node/buffer"
-                  :depends-on ("node"
-                               "parameters"))
-                 (:file "node/param"
-                  :depends-on ("node"
-                               "parameters"
-                               "event-manager")))))
+                 (:file "parameters"))))
   :description "Primitive sound generation system"
   :long-description
   #.(read-file-string

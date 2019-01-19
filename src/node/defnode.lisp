@@ -1,4 +1,4 @@
-(defpackage corn.defnode
+(defpackage corn.node.defnode
   (:use :cl
         :corn.node
         :corn.node.render
@@ -8,7 +8,7 @@
                 :make-destination)
   (:export :defnode
            :end-defnode))
-(in-package :corn.defnode)
+(in-package :corn.node.defnode)
 
 (defmacro defnode (name (&key params externals output channels) &body body)
   (let* ((package (symbol-package name))
