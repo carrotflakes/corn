@@ -36,7 +36,7 @@ Primitive sound generation system.
 
 Using `corn.extra.node-builder:build` macro simplifies the above code:
 
-```
+``` lisp
 (defvar frequency-param (make-param :value 440))
 
 (set-render
