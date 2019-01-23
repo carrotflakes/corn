@@ -37,13 +37,19 @@ Primitive sound generation system.
 Using `corn.extra.node-builder:build` macro simplifies the above code:
 
 ```
+(defvar frequency-param (make-param :value 440))
+
 (set-render
  (build-render
   (build ((create-gain :channels 2)
           :input ((make-sine :channels 2)
-                  :frequency ((make-param :value 440)))
+                  :frequency frequency-param)
           :gain ((make-param :value 0.5))))))
+
 (start)
+
+(let ((time (current-time)))
+  (param-set-value frequency-param :time (+ time 1) :value 880))
 ```
 
 ## Installation
