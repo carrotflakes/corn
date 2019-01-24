@@ -4,6 +4,7 @@
         :corn.event)
   (:export :make-event-manager
            :event-manager-current-events
+           :event-manager-queue
            :push-event
            :update
            :event
