@@ -3,12 +3,20 @@
         :corn.node)
   (:import-from :alexandria
                 :with-gensyms)
-  (:export :make-nop))
+  (:export :nop
+           :make-nop
+           :nop-input
+           :create-nop))
 (in-package :corn.node.nop)
 
 (defstruct (nop (:include node))
-  (input (make-input :default-sample-1 0.0 :default-sample-2 0.0
-                     :channels 2)))
+  input)
+
+(defun create-nop (&key (channels 2))
+  (make-nop :channels channels
+            :input (make-input :channels channels
+                               :default-sample-1 0.0
+                               :default-sample-2 0.0)))
 
 (defmethod node-parts ((nop nop))
   (with-input-parts (bindings initialize update sample-1 sample-2 finalize) (nop-input nop)
