@@ -8,6 +8,7 @@
                 :with-gensyms)
   (:export :make-biquad-filter
            :create-biquad-filter
+           :biquad-filter-type
            :biquad-filter-input
            :biquad-filter-frequency
            :biquad-filter-gain
