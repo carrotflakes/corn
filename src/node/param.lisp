@@ -20,7 +20,7 @@
 
 (defparameter *eps* 0.00001d0)
 
-(defstruct (param (:include node (channels 1)))
+(defstruct (param (:include node (corn.node::channels 1)))
   (value 0.0)
   (event-manager (make-event-manager)))
 

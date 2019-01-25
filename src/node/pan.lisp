@@ -13,7 +13,7 @@
            :pan-pan))
 (in-package :corn.node.pan)
 
-(defstruct (pan (:include node (channels 2)))
+(defstruct (pan (:include node (corn.node::channels 2)))
   input
   (pan (make-input :channels 1
                    :default-sample-1 0.0)))
