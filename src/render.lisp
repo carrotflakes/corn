@@ -5,7 +5,6 @@
         :corn.buffer)
   (:export :make-destination
            :set-render
-           :initialize
            :render
            :render-to-buffer))
 (in-package :corn.render)
