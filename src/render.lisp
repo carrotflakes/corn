@@ -5,18 +5,21 @@
         :corn.buffer)
   (:export :make-destination
            :set-render
+           :initialize
            :render
            :render-to-buffer))
 (in-package :corn.render)
 
 (defun make-destination ()
-  (make-input :channels 2))
+  (make-input :channels  *channels*))
 
 (defvar *render* nil)
 
 (defvar buffer (make-buffer *buffer-size* *channels*))
 
-(defun initialize ())
+(defun initialize ()
+  (set-render (build-render (make-destination)))
+  (setf buffer (make-buffer *buffer-size* *channels*)))
 
 (defun set-render (render)
   (setf *render* render))

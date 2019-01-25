@@ -12,6 +12,7 @@
            :connect
            :disconnect
            :make-destination
+           :initialize
            :set-render
            :build-render
            :render-to-buffer))
