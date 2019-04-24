@@ -4,32 +4,25 @@
         :corn.node
         :corn.buffer)
   (:export :make-destination
-           :set-render
-           :render
-           :render-to-buffer))
+           :make-render))
 (in-package :corn.render)
 
 (defun make-destination ()
   (make-input :channels  *channels*))
 
-(defvar *render* nil)
+(defun make-render (input)
+  (let* ((*buffer-size* *buffer-size*)
+         (*channels* *channels*)
+         (render (build-render input))
+         (buffer (make-buffer *buffer-size* *channels*))
+         (*current-time* 0.0))
+    (lambda ()
+      (let ((*next-time* (+ *current-time* (/ *buffer-size* *sampling-rate*))))
+        (funcall render buffer)
+        (setf *current-time* *next-time*))
+      (values buffer *current-time*))))
 
-(defvar buffer (make-buffer *buffer-size* *channels*))
-
-(defun initialize ()
-  (set-render (build-render (make-destination)))
-  (setf buffer (make-buffer *buffer-size* *channels*)))
-
-(defun set-render (render)
-  (setf *render* render))
-
-(defun render ()
-  (setf *next-time* (+ *current-time* (/ *buffer-size* *sampling-rate*)))
-  (when *render*
-    (funcall *render* buffer))
-  (setf *current-time* *next-time*)
-  buffer)
-
+#|
 (defun render-to-buffer (render &key buffer frames seconds)
   (cond
     (buffer
@@ -44,3 +37,4 @@
         (*buffer-size* frames))
     (funcall render buffer))
   buffer)
+|#

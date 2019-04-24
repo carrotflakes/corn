@@ -11,9 +11,7 @@
   :version "0.1.0"
   :author "carrotflakes"
   :license "LLGPL"
-  :depends-on ("cl-portaudio"
-               "bordeaux-threads"
-               "queues.priority-cqueue"
+  :depends-on ("queues.priority-cqueue"
                "alexandria")
   :components ((:module "src"
                 :components
