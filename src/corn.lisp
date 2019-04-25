@@ -1,5 +1,6 @@
 (defpackage corn
   (:use :cl
+        :corn.node
         :corn.parameters
         :corn.buffer
         :corn.render)
